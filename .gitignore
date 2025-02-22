@@ -1,0 +1,7 @@
+.venv/
+test.py
+output/
+__pycache__/
+tmp/
+.env/
+build/

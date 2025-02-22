@@ -1,0 +1,3 @@
+[submodule "csl-speech-feature-extractor"]
+  path = csl-speech-feature-extractor
+  url = https://gitlab-ci-token:${CI_PERSONAL_ACCESS_TOKEN}@gitlab.csl.uni-bremen.de/csl-intern/csl-speech-feature-extractor.git

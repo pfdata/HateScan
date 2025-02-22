@@ -1,0 +1,14 @@
+dash
+pandas
+-e ./csl-speech-feature-extractor
+librosa
+opensmile
+spacy
+whisper
+nltk
+pydub
+torch
+Sphinx
+sphinx-rtd-theme
+tabulate
+seaborn
