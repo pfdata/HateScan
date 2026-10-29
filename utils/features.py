@@ -390,7 +390,9 @@ def select_stats_features(
     selected_columns = []
     for feature_group in selected_groups:
         selected_columns.extend(FEATURE_GROUPS.get(feature_group, []))
-    return features[features["Feature"].isin(selected_columns)]
+    selected_columns = [col.replace(".", "_") for col in selected_columns]
+    feature_names = features["Feature"].str.replace(".", "_", regex=False)
+    return features[feature_names.isin(selected_columns)]
 
 
 def normalize_features(selected_features_df: pd.DataFrame, scaler=None) -> pd.DataFrame:

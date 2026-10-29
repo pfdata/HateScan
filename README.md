@@ -4,73 +4,93 @@
 
 HateScan is an interactive dashboard designed to detect hate speech from audio and text files. The dashboard allows users to upload media, analyze speech characteristics, and visualize extracted features in real-time. The system utilizes OpenSmile to extract both functional and low-level descriptors (LLD) features.
 
-## Pre-requirements
+## Prerequisites
 
-To set up and run this project, ensure the following tools are installed:
+To set up and run this project, you need:
 
-- **Python**: Install Python 3.x (the project has been tested with `>=3.8`).
-- **pip**: Ensure Python's package installer (`pip`) is installed.
-- **pip-tools**: Used for managing dependency versions.
+- **uv**: Install it using the [official installation instructions](https://docs.astral.sh/uv/getting-started/installation/).
+- **Git**: Required to initialize the speech feature extractor submodule. Access to the private CSL GitLab repository is required; configure your GitLab credentials before initializing it.
+- **Python 3.15**: uv can download this version automatically when creating the environment.
+- **FFmpeg**: Required by Whisper and pydub to decode audio. Install it using your operating system's package manager and ensure `ffmpeg` is on your `PATH`.
 
-### Installation Steps
+## Installation
 
-1. Install `pip-tools`:
-   ```bash
-   pip install pip-tools
-   ```
-2. Compile the dependencies into requirements.txt:
+Run the following commands from the repository root:
 
-   ```bash
-   pip-compile requirements.in
-   ```
-
-3. Install the dependencies:
+1. Initialize the speech feature extractor submodule:
 
    ```bash
-   pip install -r requirements.txt
+   git submodule update --init --recursive
    ```
 
-### Running the Application
+   The submodule URL currently references `CI_PERSONAL_ACCESS_TOKEN`; ensure your GitLab authentication is configured for your environment. Do not commit credentials.
 
-1. Start the app:
+2. Create a virtual environment:
+
+   ```bash
+   uv venv --python 3.15
+   ```
+
+3. Compile the dependencies for your local checkout:
+
+   ```bash
+   uv pip compile --python 3.15 --output-file requirements.txt requirements.in
+   ```
+
+   The requirements include the speech feature extractor as an editable dependency using a relative path. Recompile from the repository root when changing dependencies.
+
+4. Install the dependencies into `.venv`:
+
+   ```bash
+   uv pip install -r requirements.txt
+   ```
+
+This repository uses requirements files rather than a `pyproject.toml` or `uv.lock`, so use `uv pip` for dependency management. After editing `requirements.in`, repeat the compile and install commands above.
+
+## Running the Application
+
+Start the app from the repository root using the virtual environment:
 
 ```bash
-python app.py
+uv run --no-project python app.py
 ```
 
-2. Open your browser and navigate to: http://127.0.0.1:8050/
+Open your browser and navigate to <http://127.0.0.1:8050/>.
 
 ## Authors
 
-- Pablo Freitas [pablo2@uni-bremne.de](pablo2@uni-bremen.de)
+- Pablo Freitas [pablo2@uni-bremen.de](pablo2@uni-bremen.de)
 
-### Generating Documentation
+## Generating Documentation
 
-1. Navigate to the docs directory:
+1. Install the documentation dependencies from the repository root:
 
    ```bash
-   cd docs
+   uv pip install -r requirements_docs.txt
    ```
 
 2. Build the documentation:
 
    ```bash
-   make html
+   uv run --no-project python -m sphinx -b html docs/source docs/build/html
    ```
 
-3. View the documentation by opening `docs/build/html/index.html` in your web browser:
+3. Open `docs/build/html/index.html` in your web browser:
 
    ```bash
-   # On Linux/Mac
-   open build/html/index.html
+   # macOS
+   open docs/build/html/index.html
+
+   # Linux
+   xdg-open docs/build/html/index.html
 
    # On Windows
-   start build/html/index.html
+   start docs/build/html/index.html
    ```
 
 The documentation provides detailed information about the project's modules, classes and functions with examples of usage.
 
-## Acknolegments
+## Acknowledgments
 
 - HateMM Database
 - Rathi Rammohan and Jordan Behrendt

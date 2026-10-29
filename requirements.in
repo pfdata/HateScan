@@ -4,9 +4,10 @@ pandas
 librosa
 opensmile
 spacy
-whisper
+openai-whisper
 nltk
 pydub
+audioop-lts; python_version >= "3.13"
 torch
 Sphinx
 sphinx-rtd-theme

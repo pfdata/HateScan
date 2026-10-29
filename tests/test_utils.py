@@ -82,15 +82,21 @@ def test_select_features():
     assert selected.shape[1] == len(columns)
 
 
-def test_select_stats_features():
+@pytest.mark.parametrize(
+    "pitch_feature",
+    ["F0semitoneFrom27_5Hz_sma3nz_amean", "F0semitoneFrom27.5Hz_sma3nz_amean"],
+)
+def test_select_stats_features(pitch_feature):
     df = pd.DataFrame(
         {
-            "Feature": ["F0semitoneFrom27_5Hz_sma3nz_amean", "loudness_sma3_amean"],
-            "value": [1, 2],
+            "Feature": [pitch_feature, "loudness_sma3_amean", "unrelated_feature"],
+            "value": [1, 2, 3],
         }
     )
+    original = df.copy(deep=True)
     selected = select_stats_features(df, ["pitch", "loudness"])
-    assert selected.shape[0] == 2
+    pd.testing.assert_frame_equal(selected, original.iloc[:2])
+    pd.testing.assert_frame_equal(df, original)
 
 
 def test_normalize_features():

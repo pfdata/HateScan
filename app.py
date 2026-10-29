@@ -34,4 +34,4 @@ def serve_file(filename):
 if __name__ == "__main__":
     mp.set_start_method("spawn", force=True)
 
-    app.run_server(debug=False)
+    app.run(debug=False)
